@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6-Month Walk-to-Run Training Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f5; /* zinc-100 */
+        }
+        .table-cell-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .workout-title {
+            font-weight: 600;
+            color: #18181b; /* zinc-900 */
+        }
+        .workout-details {
+            font-size: 0.875rem;
+            color: #52525b; /* zinc-600 */
+            flex-grow: 1;
+        }
+        .workout-zone {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            align-self: flex-start;
+        }
+        .zone-1 { background-color: #dbeafe; color: #1e40af; } /* blue-200 / blue-800 */
+        .zone-2 { background-color: #cce7d4; color: #166534; } /* green-200 / green-800 */
+        .strength-bg { background-color: #fee2e2; } /* red-200 */
+        .run-walk-bg { background-color: #dbeafe; } /* blue-200 */
+        .rest-bg { background-color: #e5e5e5; } /* neutral-300 */
+        .header-cell {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 10;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            accent-color: #22c55e; /* green-500 */
+        }
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
+            table {
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-bold text-zinc-800 mb-4">Your 6-Month Training Plan</h1>
+        <p class="text-zinc-600 mb-6">From walking 1.5 miles to running 3 miles. Check off each week as you complete it. Your progress is saved automatically.</p>
+
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-xl font-bold text-zinc-800 mb-4">Your Heart Rate Zones (Max HR: 215 bpm)</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div class="p-4 rounded-lg bg-gray-100">
+                    <div class="font-bold text-gray-800">Zone 1</div>
+                    <div class="text-gray-600">50-60%</div>
+                    <div class="text-lg font-semibold text-gray-900">108-129 bpm</div>
+                </div>
+                <div class="p-4 rounded-lg bg-green-100">
+                    <div class="font-bold text-green-800">Zone 2</div>
+                    <div class="text-green-600">60-70%</div>
+                    <div class="text-lg font-semibold text-green-900">129-151 bpm</div>
+                </div>
+                <div class="p-4 rounded-lg bg-yellow-100">
+                    <div class="font-bold text-yellow-800">Zone 3</div>
+                    <div class="text-yellow-600">70-80%</div>
+                    <div class="text-lg font-semibold text-yellow-900">151-172 bpm</div>
+                </div>
+                <div class="p-4 rounded-lg bg-orange-100">
+                    <div class="font-bold text-orange-800">Zone 4</div>
+                    <div class="text-orange-600">80-90%</div>
+                    <div class="text-lg font-semibold text-orange-900">172-194 bpm</div>
+                </div>
+                <div class="p-4 rounded-lg bg-red-100">
+                    <div class="font-bold text-red-800">Zone 5</div>
+                    <div class="text-red-600">90-100%</div>
+                    <div class="text-lg font-semibold text-red-900">194-215 bpm</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container bg-white rounded-xl shadow-md overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="border-b border-zinc-200">
+                    <tr>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Week</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Date</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Monday</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Tuesday</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Wednesday</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Thursday</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Friday</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Saturday</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Sunday</th>
+                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell text-center">Done</th>
+                    </tr>
+                </thead>
+                <tbody id="plan-body" class="divide-y divide-zinc-200">
+                    <!-- Plan will be generated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const planBody = document.getElementById('plan-body');
+
+            // --- WORKOUT DEFINITIONS ---
+            const strengthWorkout = {
+                title: 'Strength',
+                details: 'Glute Bridges, Squats, Plank, Bird-Dog. 2-3 sets.',
+                zone: 'N/A',
+                class: 'strength-bg'
+            };
+            const restDay = {
+                title: 'Rest',
+                details: 'Full rest or very light activity like a short, slow walk.',
+                zone: 'Zone 1',
+                class: 'rest-bg'
+            };
+            const easyCardio = {
+                title: 'Easy Cardio',
+                details: '20-30 min easy walk.',
+                zone: 'Zone 1',
+                class: 'rest-bg'
+            };
+
+            // --- 6-MONTH PLAN ---
+            const plan = [
+                // Month 1
+                { week: 1, run: { title: 'Run/Walk', details: '6x (30s Jog / 4m Walk)', zone: 'Zone 2' } },
+                { week: 2, run: { title: 'Run/Walk', details: '8x (30s Jog / 3m Walk)', zone: 'Zone 2' } },
+                { week: 3, run: { title: 'Run/Walk', details: '6x (45s Jog / 3m Walk)', zone: 'Zone 2' } },
+                { week: 4, run: { title: 'Recovery', details: '5x (30s Jog / 3m Walk)', zone: 'Zone 2' } },
+                // Month 2
+                { week: 5, run: { title: 'Run/Walk', details: '8x (1m Jog / 3m Walk)', zone: 'Zone 2' } },
+                { week: 6, run: { title: 'Run/Walk', details: '8x (1m Jog / 2.5m Walk)', zone: 'Zone 2' } },
+                { week: 7, run: { title: 'Run/Walk', details: '6x (2m Jog / 3m Walk)', zone: 'Zone 2' } },
+                { week: 8, run: { title: 'Recovery', details: '5x (90s Jog / 3m Walk)', zone: 'Zone 2' } },
+                // Month 3
+                { week: 9, run: { title: 'Run/Walk', details: '6x (3m Jog / 3m Walk)', zone: 'Zone 2' } },
+                { week: 10, run: { title: 'Run/Walk', details: '5x (4m Jog / 3m Walk)', zone: 'Zone 2' } },
+                { week: 11, run: { title: 'Run/Walk', details: '4x (5m Jog / 3m Walk)', zone: 'Zone 2' } },
+                { week: 12, run: { title: 'Recovery', details: '4x (3m Jog / 3m Walk)', zone: 'Zone 2' } },
+                // Month 4
+                { week: 13, run: { title: 'Run/Walk', details: '4x (6m Jog / 2m Walk)', zone: 'Zone 2' } },
+                { week: 14, run: { title: 'Run/Walk', details: '3x (8m Jog / 2m Walk)', zone: 'Zone 2' } },
+                { week: 15, run: { title: 'Run/Walk', details: '3x (10m Jog / 2m Walk)', zone: 'Zone 2' } },
+                { week: 16, run: { title: 'Recovery', details: '3x (6m Jog / 2m Walk)', zone: 'Zone 2' } },
+                // Month 5
+                { week: 17, run: { title: 'Run/Walk', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } },
+                { week: 18, run: { title: 'Run/Walk', details: '3x (7m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '18 min continuous jog', zone: 'Zone 2' } },
+                { week: 19, run: { title: 'Run/Walk', details: '3x (8m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '20 min continuous jog', zone: 'Zone 2' } },
+                { week: 20, run: { title: 'Recovery', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } },
+                // Month 6
+                { week: 21, run: { title: 'Run/Walk', details: '2x (10m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '22 min continuous jog', zone: 'Zone 2' } },
+                { week: 22, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '25 min continuous jog', zone: 'Zone 2' } },
+                { week: 23, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '28 min continuous jog', zone: 'Zone 2' } },
+                { week: 24, run: { title: 'Easy Run', details: '15-20 min easy jog', zone: 'Zone 2' }, longRun: { title: 'GOAL RUN', details: '3 mile easy run!', zone: 'Zone 2' } },
+                { week: 25, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '30 min easy run', zone: 'Zone 2' } },
+                { week: 26, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '3 mile easy run', zone: 'Zone 2' } },
+            ];
+
+            function createCell(workout) {
+                const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
+                return `
+                    <td class="p-2 align-top ${workout.class}">
+                        <div class="table-cell-content">
+                            <div class="workout-title">${workout.title}</div>
+                            <p class="workout-details">${workout.details}</p>
+                            ${workout.zone !== 'N/A' ? `<div class="workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
+                        </div>
+                    </td>
+                `;
+            }
+
+            const startDate = new Date(); // Start from today
+            // Find the last Monday to start the calendar week correctly
+            startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7);
+
+            plan.forEach(weekData => {
+                const row = document.createElement('tr');
+                const weekStartDate = new Date(startDate);
+                weekStartDate.setDate(startDate.getDate() + (weekData.week - 1) * 7);
+                
+                const formattedDate = weekStartDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+                let schedule = {
+                    mon: strengthWorkout,
+                    tue: { ...weekData.run, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.run.details}. 5m walk cool-down.` },
+                    wed: easyCardio,
+                    thu: { ...weekData.run, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.run.details}. 5m walk cool-down.` },
+                    fri: strengthWorkout,
+                    sat: weekData.longRun 
+                        ? { ...weekData.longRun, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.longRun.details}. 5m walk cool-down.` } 
+                        : { ...weekData.run, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.run.details}. 5m walk cool-down.` },
+                    sun: restDay
+                };
+
+                row.innerHTML = `
+                    <td class="p-4 font-semibold text-zinc-800 text-center align-middle">${weekData.week}</td>
+                    <td class="p-4 text-sm text-zinc-600 align-middle">${formattedDate}</td>
+                    ${createCell(schedule.mon)}
+                    ${createCell(schedule.tue)}
+                    ${createCell(schedule.wed)}
+                    ${createCell(schedule.thu)}
+                    ${createCell(schedule.fri)}
+                    ${createCell(schedule.sat)}
+                    ${createCell(schedule.sun)}
+                    <td class="p-2 align-middle">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="week-${weekData.week}" class="week-checkbox">
+                        </div>
+                    </td>
+                `;
+                planBody.appendChild(row);
+            });
+
+            // --- LOCALSTORAGE FOR CHECKBOXES ---
+            const checkboxes = document.querySelectorAll('.week-checkbox');
+            
+            function saveProgress() {
+                checkboxes.forEach(box => {
+                    localStorage.setItem(box.id, box.checked);
+                });
+            }
+
+            function loadProgress() {
+                checkboxes.forEach(box => {
+                    const isChecked = localStorage.getItem(box.id) === 'true';
+                    box.checked = isChecked;
+                });
+            }
+
+            checkboxes.forEach(box => {
+                box.addEventListener('change', saveProgress);
+            });
+
+            loadProgress();
+        });
+    </script>
+</body>
+</html>
