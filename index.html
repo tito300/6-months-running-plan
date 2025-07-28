@@ -43,12 +43,6 @@
             background-color: #ffffff;
             z-index: 10;
         }
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
         input[type="checkbox"] {
             transform: scale(1.5);
             accent-color: #22c55e; /* green-500 */
@@ -145,11 +139,18 @@
 
         function createTableCell(workout, week, day) {
             const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
+            const isRestOrEasy = workout.title === 'Rest' || workout.title === 'Easy Cardio';
+            
+            // Conditionally create the checkbox
+            const checkboxHtml = !isRestOrEasy 
+                ? `<input type="checkbox" id="day-table-check-${week}-${day}" data-week="${week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">`
+                : '';
+
             return `<td class="p-2 align-top ${workout.class}">
                         <div class="table-cell-content">
                             <div class="flex justify-between items-start">
                                 <div class="workout-title pr-2">${workout.title}</div>
-                                <input type="checkbox" id="day-table-check-${week}-${day}" data-week="${week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">
+                                ${checkboxHtml}
                             </div>
                             <p class="workout-details">${workout.details}</p>
                             ${workout.zone !== 'N/A' ? `<div class="mt-2 workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
@@ -206,6 +207,13 @@
             `;
             for (const [day, workout] of Object.entries(schedule)) {
                 const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
+                const isRestOrEasy = workout.title === 'Rest' || workout.title === 'Easy Cardio';
+                
+                // Conditionally create the checkbox for mobile view
+                const checkboxHtml = !isRestOrEasy
+                    ? `<input type="checkbox" id="day-card-check-${weekData.week}-${day}" data-week="${weekData.week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">`
+                    : '';
+
                 cardContent += `
                     <div class="flex items-start justify-between space-x-3 py-1">
                         <div class="flex-1">
@@ -214,7 +222,7 @@
                             <p class="workout-details">${workout.details}</p>
                             ${workout.zone !== 'N/A' ? `<div class="mt-1 workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
                         </div>
-                        <input type="checkbox" id="day-card-check-${weekData.week}-${day}" data-week="${weekData.week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">
+                        ${checkboxHtml}
                     </div>
                 `;
             }
