@@ -201,16 +201,18 @@
         });
 
         // --- FIREBASE SETUP AND LOGIC ---
-        document.addEventListener('DOMContentLoaded', async () => {
-            const firebaseConfig = {
+            document.addEventListener('DOMContentLoaded', async () => {
+                // Your web app's Firebase configuration
+              const firebaseConfig = {
                 apiKey: "AIzaSyDcSBTWMTQg3VeZBpzvqD6WnhN3bXqKEWo",
                 authDomain: "tarek-github-pages.firebaseapp.com",
                 projectId: "tarek-github-pages",
-                storageBucket: "tarek-github-pages.appspot.com",
+                storageBucket: "tarek-github-pages.firebasestorage.app",
                 messagingSenderId: "673302977336",
                 appId: "1:673302977336:web:08281ab54dca3bc59bbfcd"
-            };
+              };
 
+            // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             const db = getFirestore(app);
