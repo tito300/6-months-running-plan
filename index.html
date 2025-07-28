@@ -83,33 +83,34 @@
         <div class="bg-white p-6 rounded-xl shadow-md mb-8">
             <h2 class="text-xl font-bold text-zinc-800 mb-4">Your Heart Rate Zones (Max HR: 215 bpm)</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-                <div class="p-4 rounded-lg bg-gray-100"><div class="font-bold text-gray-800">Zone 1</div><div class="text-gray-600">50-60%</div><div class="text-lg font-semibold text-gray-900">108-129 bpm</div></div>
-                <div class="p-4 rounded-lg bg-green-100"><div class="font-bold text-green-800">Zone 2</div><div class="text-green-600">60-70%</div><div class="text-lg font-semibold text-green-900">129-151 bpm</div></div>
-                <div class="p-4 rounded-lg bg-yellow-100"><div class="font-bold text-yellow-800">Zone 3</div><div class="text-yellow-600">70-80%</div><div class="text-lg font-semibold text-yellow-900">151-172 bpm</div></div>
-                <div class="p-4 rounded-lg bg-orange-100"><div class="font-bold text-orange-800">Zone 4</div><div class="text-orange-600">80-90%</div><div class="text-lg font-semibold text-orange-900">172-194 bpm</div></div>
-                <div class="p-4 rounded-lg bg-red-100"><div class="font-bold text-red-800">Zone 5</div><div class="text-red-600">90-100%</div><div class="text-lg font-semibold text-red-900">194-215 bpm</div></div>
+                <div class="p-4 rounded-lg bg-gray-100"><div class="font-bold text-gray-800">Zone 1</div><div class="text-gray-600">50-68%</div><div class="text-lg font-semibold text-gray-900">108-146 bpm</div></div>
+                <div class="p-4 rounded-lg bg-green-100"><div class="font-bold text-green-800">Zone 2</div><div class="text-green-600">68-78%</div><div class="text-lg font-semibold text-green-900">146-168 bpm</div></div>
+                <div class="p-4 rounded-lg bg-yellow-100"><div class="font-bold text-yellow-800">Zone 3</div><div class="text-yellow-600">78-85%</div><div class="text-lg font-semibold text-yellow-900">168-183 bpm</div></div>
+                <div class="p-4 rounded-lg bg-orange-100"><div class="font-bold text-orange-800">Zone 4</div><div class="text-orange-600">85-92%</div><div class="text-lg font-semibold text-orange-900">183-198 bpm</div></div>
+                <div class="p-4 rounded-lg bg-red-100"><div class="font-bold text-red-800">Zone 5</div><div class="text-red-600">92-100%</div><div class="text-lg font-semibold text-red-900">198-215 bpm</div></div>
             </div>
         </div>
 
         <!-- Desktop Table View -->
-        <div class="hidden md:block bg-white rounded-xl shadow-md overflow-hidden">
-            <table class="w-full text-left">
-                <thead class="border-b border-zinc-200">
-                    <tr>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Week</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Date</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Monday</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Tuesday</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Wednesday</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Thursday</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Friday</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Saturday</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Sunday</th>
-                        <th class="p-4 text-sm font-semibold text-zinc-600 header-cell text-center">Done</th>
-                    </tr>
-                </thead>
-                <tbody id="plan-body-table" class="divide-y divide-zinc-200"></tbody>
-            </table>
+        <div class="hidden md:block bg-white rounded-xl shadow-md">
+             <div class="overflow-x-auto">
+                <table class="w-full text-left" style="min-width: 1200px;">
+                    <thead class="border-b border-zinc-200">
+                        <tr>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Week</th>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Date</th>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Monday</th>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Tuesday</th>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Wednesday</th>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Thursday</th>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Friday</th>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Saturday</th>
+                            <th class="p-4 text-sm font-semibold text-zinc-600 header-cell">Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="plan-body-table" class="divide-y divide-zinc-200"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Mobile Card View -->
@@ -178,11 +179,7 @@
                 ${createTableCell(schedule.Friday, weekData.week, 'Friday')}
                 ${createTableCell(schedule.Saturday, weekData.week, 'Saturday')}
                 ${createTableCell(schedule.Sunday, weekData.week, 'Sunday')}
-                <td class="p-2 align-middle">
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="week-table-${weekData.week}" data-week="${weekData.week}" class="week-checkbox" disabled>
-                    </div>
-                </td>`;
+            `;
             planTableBody.appendChild(row);
 
             // --- Create Card (Mobile) ---
@@ -190,14 +187,10 @@
             card.className = 'bg-white rounded-xl shadow-md p-4';
             card.id = `week-card-container-${weekData.week}`;
             let cardContent = `
-                <div class="flex justify-between items-center border-b border-zinc-200 pb-3 mb-3">
+                <div class="border-b border-zinc-200 pb-3 mb-3">
                     <div>
                         <h3 class="font-bold text-lg text-zinc-800">Week ${weekData.week}</h3>
                         <p class="text-sm text-zinc-500">Starts ${formattedDate}</p>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                         <label for="week-card-${weekData.week}" class="text-sm font-medium text-zinc-600">Done</label>
-                         <input type="checkbox" id="week-card-${weekData.week}" data-week="${weekData.week}" class="week-checkbox" disabled>
                     </div>
                 </div>
                 <div class="space-y-3">
@@ -223,6 +216,16 @@
 
         // --- FIREBASE SETUP AND LOGIC ---
         document.addEventListener('DOMContentLoaded', async () => {
+            // Defensively check for the firebase config to prevent reference errors.
+            if (typeof __firebase_config === 'undefined') {
+                console.error("Firebase configuration object is not defined.");
+                document.getElementById('progress-text').textContent = 'Error: App configuration is missing.';
+                // Hide the main content if the app can't load
+                document.getElementById('plan-body-table').style.display = 'none';
+                document.getElementById('plan-body-cards').style.display = 'none';
+                return; // Stop the app from running
+            }
+
             const firebaseConfig = JSON.parse(__firebase_config);
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-run-plan-app';
             
@@ -247,8 +250,10 @@
 
                 const updateUI = () => {
                     let completedWeeksCount = 0;
+                    const requiredDays = ['Monday', 'Tuesday', 'Thursday', 'Friday', 'Saturday'];
+
                     for (const week in progressData) {
-                        let allDaysChecked = true;
+                        // Update the checked state for all daily checkboxes first
                         for (const day in progressData[week]) {
                             const isChecked = progressData[week][day];
                             
@@ -257,17 +262,14 @@
                             
                             const cardCheck = document.getElementById(`day-card-check-${week}-${day}`);
                             if (cardCheck) cardCheck.checked = isChecked;
-
-                            if (!isChecked) allDaysChecked = false;
                         }
 
-                        const weekTableCheck = document.getElementById(`week-table-${week}`);
-                        if (weekTableCheck) weekTableCheck.checked = allDaysChecked;
-                        
-                        const weekCardCheck = document.getElementById(`week-card-${week}`);
-                        if (weekCardCheck) weekCardCheck.checked = allDaysChecked;
-                        
-                        if(allDaysChecked) completedWeeksCount++;
+                        // Now, check if the week is complete based on required days
+                        const isWeekComplete = requiredDays.every(day => progressData[week][day]);
+
+                        if (isWeekComplete) {
+                            completedWeeksCount++;
+                        }
                     }
                     
                     const totalWeeks = plan.length;
