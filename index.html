@@ -146,9 +146,9 @@
             weekStartDate.setDate(startDate.getDate() + (weekData.week - 1) * 7);
             const formattedDate = weekStartDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-            const runWorkout = { ...weekData.run, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.run.details}. 5m walk cool-down.` };
+            const runWorkout = { ...weekData.run, class: 'run-walk-bg', details: weekData.run.details };
             const longRunWorkout = weekData.longRun 
-                ? { ...weekData.longRun, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.longRun.details}. 5m walk cool-down.` } 
+                ? { ...weekData.longRun, class: 'run-walk-bg', details: weekData.longRun.details } 
                 : runWorkout;
 
             const schedule = {
