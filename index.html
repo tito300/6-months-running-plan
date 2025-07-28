@@ -235,7 +235,6 @@
                 return; // Stop the app from running
             }
 
-            const firebaseConfig = JSON.parse(__firebase_config);
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-run-plan-app';
             
             const app = initializeApp(firebaseConfig);
