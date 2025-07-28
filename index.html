@@ -53,54 +53,46 @@
             transform: scale(1.5);
             accent-color: #22c55e; /* green-500 */
         }
-        @media (max-width: 768px) {
-            .table-container {
-                overflow-x: auto;
-            }
-            table {
-                min-width: 800px;
-            }
+        .progress-bar-bg {
+            background-color: #e5e7eb; /* gray-200 */
+        }
+        .progress-bar {
+            background-color: #22c55e; /* green-500 */
+            transition: width 0.5s ease-in-out;
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-6">
 
     <div class="max-w-7xl mx-auto">
-        <h1 class="text-3xl md:text-4xl font-bold text-zinc-800 mb-4">Your 6-Month Training Plan</h1>
-        <p class="text-zinc-600 mb-6">From walking 1.5 miles to running 3 miles. Check off each week as you complete it. Your progress is saved automatically.</p>
+        <h1 class="text-3xl md:text-4xl font-bold text-zinc-800 mb-2">Your 6-Month Training Plan</h1>
+        <p class="text-zinc-600 mb-6">From walking 1.5 miles to running 3 miles. Your progress is saved automatically to your account.</p>
 
-        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h2 class="text-xl font-bold text-zinc-800 mb-4">Your Heart Rate Zones (Max HR: 215 bpm)</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-                <div class="p-4 rounded-lg bg-gray-100">
-                    <div class="font-bold text-gray-800">Zone 1</div>
-                    <div class="text-gray-600">50-60%</div>
-                    <div class="text-lg font-semibold text-gray-900">108-129 bpm</div>
-                </div>
-                <div class="p-4 rounded-lg bg-green-100">
-                    <div class="font-bold text-green-800">Zone 2</div>
-                    <div class="text-green-600">60-70%</div>
-                    <div class="text-lg font-semibold text-green-900">129-151 bpm</div>
-                </div>
-                <div class="p-4 rounded-lg bg-yellow-100">
-                    <div class="font-bold text-yellow-800">Zone 3</div>
-                    <div class="text-yellow-600">70-80%</div>
-                    <div class="text-lg font-semibold text-yellow-900">151-172 bpm</div>
-                </div>
-                <div class="p-4 rounded-lg bg-orange-100">
-                    <div class="font-bold text-orange-800">Zone 4</div>
-                    <div class="text-orange-600">80-90%</div>
-                    <div class="text-lg font-semibold text-orange-900">172-194 bpm</div>
-                </div>
-                <div class="p-4 rounded-lg bg-red-100">
-                    <div class="font-bold text-red-800">Zone 5</div>
-                    <div class="text-red-600">90-100%</div>
-                    <div class="text-lg font-semibold text-red-900">194-215 bpm</div>
-                </div>
+        <!-- Progress Tracker -->
+        <div id="progress-container" class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-lg font-bold text-zinc-800">Your Progress</h2>
+                <span id="progress-text" class="text-sm font-medium text-zinc-600">Loading...</span>
+            </div>
+            <div class="w-full progress-bar-bg rounded-full h-4">
+                <div id="progress-bar" class="progress-bar h-4 rounded-full" style="width: 0%"></div>
             </div>
         </div>
 
-        <div class="table-container bg-white rounded-xl shadow-md overflow-hidden">
+        <!-- Heart Rate Zones -->
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-xl font-bold text-zinc-800 mb-4">Your Heart Rate Zones (Max HR: 215 bpm)</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div class="p-4 rounded-lg bg-gray-100"><div class="font-bold text-gray-800">Zone 1</div><div class="text-gray-600">50-60%</div><div class="text-lg font-semibold text-gray-900">108-129 bpm</div></div>
+                <div class="p-4 rounded-lg bg-green-100"><div class="font-bold text-green-800">Zone 2</div><div class="text-green-600">60-70%</div><div class="text-lg font-semibold text-green-900">129-151 bpm</div></div>
+                <div class="p-4 rounded-lg bg-yellow-100"><div class="font-bold text-yellow-800">Zone 3</div><div class="text-yellow-600">70-80%</div><div class="text-lg font-semibold text-yellow-900">151-172 bpm</div></div>
+                <div class="p-4 rounded-lg bg-orange-100"><div class="font-bold text-orange-800">Zone 4</div><div class="text-orange-600">80-90%</div><div class="text-lg font-semibold text-orange-900">172-194 bpm</div></div>
+                <div class="p-4 rounded-lg bg-red-100"><div class="font-bold text-red-800">Zone 5</div><div class="text-red-600">90-100%</div><div class="text-lg font-semibold text-red-900">194-215 bpm</div></div>
+            </div>
+        </div>
+
+        <!-- Desktop Table View -->
+        <div class="hidden md:block bg-white rounded-xl shadow-md overflow-hidden">
             <table class="w-full text-left">
                 <thead class="border-b border-zinc-200">
                     <tr>
@@ -116,149 +108,188 @@
                         <th class="p-4 text-sm font-semibold text-zinc-600 header-cell text-center">Done</th>
                     </tr>
                 </thead>
-                <tbody id="plan-body" class="divide-y divide-zinc-200">
-                    <!-- Plan will be generated by JavaScript -->
-                </tbody>
+                <tbody id="plan-body-table" class="divide-y divide-zinc-200"></tbody>
             </table>
         </div>
+
+        <!-- Mobile Card View -->
+        <div id="plan-body-cards" class="md:hidden space-y-4"></div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const planBody = document.getElementById('plan-body');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-            // --- WORKOUT DEFINITIONS ---
-            const strengthWorkout = {
-                title: 'Strength',
-                details: 'Glute Bridges, Squats, Plank, Bird-Dog. 2-3 sets.',
-                zone: 'N/A',
-                class: 'strength-bg'
-            };
-            const restDay = {
-                title: 'Rest',
-                details: 'Full rest or very light activity like a short, slow walk.',
-                zone: 'Zone 1',
-                class: 'rest-bg'
-            };
-            const easyCardio = {
-                title: 'Easy Cardio',
-                details: '20-30 min easy walk.',
-                zone: 'Zone 1',
-                class: 'rest-bg'
+        // --- DATA AND RENDER FUNCTIONS ---
+        const planTableBody = document.getElementById('plan-body-table');
+        const planCardsContainer = document.getElementById('plan-body-cards');
+        const strengthWorkout = { title: 'Strength (Lower/Core)', details: 'Glute Bridges, Squats, Plank, Bird-Dog. 2-3 sets.', zone: 'N/A', class: 'strength-bg' };
+        const upperStrengthWorkout = { title: 'Strength (Upper Body)', details: 'Push-ups, Rows, Overhead Press. 2-3 sets.', zone: 'N/A', class: 'strength-bg' };
+        const restDay = { title: 'Rest', details: 'Full rest or very light activity like a short, slow walk.', zone: 'Zone 1', class: 'rest-bg' };
+        const easyCardio = { title: 'Easy Cardio', details: '20-30 min easy walk.', zone: 'Zone 1', class: 'rest-bg' };
+        
+        const plan = [
+            { week: 1, run: { title: 'Run/Walk', details: '6x (30s Jog / 4m Walk)', zone: 'Zone 2' } }, { week: 2, run: { title: 'Run/Walk', details: '8x (30s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 3, run: { title: 'Run/Walk', details: '6x (45s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 4, run: { title: 'Recovery', details: '5x (30s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 5, run: { title: 'Run/Walk', details: '8x (1m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 6, run: { title: 'Run/Walk', details: '8x (1m Jog / 2.5m Walk)', zone: 'Zone 2' } }, { week: 7, run: { title: 'Run/Walk', details: '6x (2m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 8, run: { title: 'Recovery', details: '5x (90s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 9, run: { title: 'Run/Walk', details: '6x (3m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 10, run: { title: 'Run/Walk', details: '5x (4m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 11, run: { title: 'Run/Walk', details: '4x (5m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 12, run: { title: 'Recovery', details: '4x (3m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 13, run: { title: 'Run/Walk', details: '4x (6m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 14, run: { title: 'Run/Walk', details: '3x (8m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 15, run: { title: 'Run/Walk', details: '3x (10m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 16, run: { title: 'Recovery', details: '3x (6m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 17, run: { title: 'Run/Walk', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } }, { week: 18, run: { title: 'Run/Walk', details: '3x (7m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '18 min continuous jog', zone: 'Zone 2' } }, { week: 19, run: { title: 'Run/Walk', details: '3x (8m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '20 min continuous jog', zone: 'Zone 2' } }, { week: 20, run: { title: 'Recovery', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } }, { week: 21, run: { title: 'Run/Walk', details: '2x (10m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '22 min continuous jog', zone: 'Zone 2' } }, { week: 22, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '25 min continuous jog', zone: 'Zone 2' } }, { week: 23, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '28 min continuous jog', zone: 'Zone 2' } }, { week: 24, run: { title: 'Easy Run', details: '15-20 min easy jog', zone: 'Zone 2' }, longRun: { title: 'GOAL RUN', details: '3 mile easy run!', zone: 'Zone 2' } }, { week: 25, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '30 min easy run', zone: 'Zone 2' } }, { week: 26, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '3 mile easy run', zone: 'Zone 2' } },
+        ];
+
+        function createTableCell(workout) {
+            const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
+            return `<td class="p-2 align-top ${workout.class}"><div class="table-cell-content"><div class="workout-title">${workout.title}</div><p class="workout-details">${workout.details}</p>${workout.zone !== 'N/A' ? `<div class="workout-zone ${zoneClass}">${workout.zone}</div>` : ''}</div></td>`;
+        }
+        
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7);
+
+        plan.forEach(weekData => {
+            const weekStartDate = new Date(startDate);
+            weekStartDate.setDate(startDate.getDate() + (weekData.week - 1) * 7);
+            const formattedDate = weekStartDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+            const runWorkout = { ...weekData.run, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.run.details}. 5m walk cool-down.` };
+            const longRunWorkout = weekData.longRun 
+                ? { ...weekData.longRun, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.longRun.details}. 5m walk cool-down.` } 
+                : runWorkout;
+
+            const schedule = {
+                Monday: strengthWorkout,
+                Tuesday: runWorkout,
+                Wednesday: easyCardio,
+                Thursday: upperStrengthWorkout,
+                Friday: runWorkout,
+                Saturday: longRunWorkout,
+                Sunday: restDay
             };
 
-            // --- 6-MONTH PLAN ---
-            const plan = [
-                // Month 1
-                { week: 1, run: { title: 'Run/Walk', details: '6x (30s Jog / 4m Walk)', zone: 'Zone 2' } },
-                { week: 2, run: { title: 'Run/Walk', details: '8x (30s Jog / 3m Walk)', zone: 'Zone 2' } },
-                { week: 3, run: { title: 'Run/Walk', details: '6x (45s Jog / 3m Walk)', zone: 'Zone 2' } },
-                { week: 4, run: { title: 'Recovery', details: '5x (30s Jog / 3m Walk)', zone: 'Zone 2' } },
-                // Month 2
-                { week: 5, run: { title: 'Run/Walk', details: '8x (1m Jog / 3m Walk)', zone: 'Zone 2' } },
-                { week: 6, run: { title: 'Run/Walk', details: '8x (1m Jog / 2.5m Walk)', zone: 'Zone 2' } },
-                { week: 7, run: { title: 'Run/Walk', details: '6x (2m Jog / 3m Walk)', zone: 'Zone 2' } },
-                { week: 8, run: { title: 'Recovery', details: '5x (90s Jog / 3m Walk)', zone: 'Zone 2' } },
-                // Month 3
-                { week: 9, run: { title: 'Run/Walk', details: '6x (3m Jog / 3m Walk)', zone: 'Zone 2' } },
-                { week: 10, run: { title: 'Run/Walk', details: '5x (4m Jog / 3m Walk)', zone: 'Zone 2' } },
-                { week: 11, run: { title: 'Run/Walk', details: '4x (5m Jog / 3m Walk)', zone: 'Zone 2' } },
-                { week: 12, run: { title: 'Recovery', details: '4x (3m Jog / 3m Walk)', zone: 'Zone 2' } },
-                // Month 4
-                { week: 13, run: { title: 'Run/Walk', details: '4x (6m Jog / 2m Walk)', zone: 'Zone 2' } },
-                { week: 14, run: { title: 'Run/Walk', details: '3x (8m Jog / 2m Walk)', zone: 'Zone 2' } },
-                { week: 15, run: { title: 'Run/Walk', details: '3x (10m Jog / 2m Walk)', zone: 'Zone 2' } },
-                { week: 16, run: { title: 'Recovery', details: '3x (6m Jog / 2m Walk)', zone: 'Zone 2' } },
-                // Month 5
-                { week: 17, run: { title: 'Run/Walk', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } },
-                { week: 18, run: { title: 'Run/Walk', details: '3x (7m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '18 min continuous jog', zone: 'Zone 2' } },
-                { week: 19, run: { title: 'Run/Walk', details: '3x (8m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '20 min continuous jog', zone: 'Zone 2' } },
-                { week: 20, run: { title: 'Recovery', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } },
-                // Month 6
-                { week: 21, run: { title: 'Run/Walk', details: '2x (10m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '22 min continuous jog', zone: 'Zone 2' } },
-                { week: 22, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '25 min continuous jog', zone: 'Zone 2' } },
-                { week: 23, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '28 min continuous jog', zone: 'Zone 2' } },
-                { week: 24, run: { title: 'Easy Run', details: '15-20 min easy jog', zone: 'Zone 2' }, longRun: { title: 'GOAL RUN', details: '3 mile easy run!', zone: 'Zone 2' } },
-                { week: 25, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '30 min easy run', zone: 'Zone 2' } },
-                { week: 26, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '3 mile easy run', zone: 'Zone 2' } },
-            ];
+            // --- Create Table Row (Desktop) ---
+            const row = document.createElement('tr');
+            row.innerHTML = `<td class="p-4 font-semibold text-zinc-800 text-center align-middle">${weekData.week}</td><td class="p-4 text-sm text-zinc-600 align-middle">${formattedDate}</td>${createTableCell(schedule.Monday)}${createTableCell(schedule.Tuesday)}${createTableCell(schedule.Wednesday)}${createTableCell(schedule.Thursday)}${createTableCell(schedule.Friday)}${createTableCell(schedule.Saturday)}${createTableCell(schedule.Sunday)}<td class="p-2 align-middle"><div class="checkbox-container"><input type="checkbox" id="week-table-${weekData.week}" data-week="${weekData.week}" class="week-checkbox"></div></td>`;
+            planTableBody.appendChild(row);
 
-            function createCell(workout) {
+            // --- Create Card (Mobile) ---
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl shadow-md p-4';
+            let cardContent = `
+                <div class="flex justify-between items-center border-b border-zinc-200 pb-3 mb-3">
+                    <div>
+                        <h3 class="font-bold text-lg text-zinc-800">Week ${weekData.week}</h3>
+                        <p class="text-sm text-zinc-500">Starts ${formattedDate}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                         <label for="week-card-${weekData.week}" class="text-sm font-medium text-zinc-600">Done</label>
+                         <input type="checkbox" id="week-card-${weekData.week}" data-week="${weekData.week}" class="week-checkbox">
+                    </div>
+                </div>
+                <div class="space-y-3">
+            `;
+            for (const [day, workout] of Object.entries(schedule)) {
                 const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
-                return `
-                    <td class="p-2 align-top ${workout.class}">
-                        <div class="table-cell-content">
+                cardContent += `
+                    <div class="flex items-start space-x-3">
+                        <div class="w-16 text-xs font-bold text-zinc-500 uppercase pt-1">${day}</div>
+                        <div class="flex-1">
                             <div class="workout-title">${workout.title}</div>
                             <p class="workout-details">${workout.details}</p>
-                            ${workout.zone !== 'N/A' ? `<div class="workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
+                            ${workout.zone !== 'N/A' ? `<div class="mt-1 workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
                         </div>
-                    </td>
+                    </div>
                 `;
             }
+            cardContent += `</div>`;
+            card.innerHTML = cardContent;
+            planCardsContainer.appendChild(card);
+        });
 
-            const startDate = new Date(); // Start from today
-            // Find the last Monday to start the calendar week correctly
-            startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7);
+        // --- FIREBASE SETUP AND LOGIC ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            const firebaseConfig = {
+                apiKey: "AIzaSyDcSBTWMTQg3VeZBpzvqD6WnhN3bXqKEWo",
+                authDomain: "tarek-github-pages.firebaseapp.com",
+                projectId: "tarek-github-pages",
+                storageBucket: "tarek-github-pages.appspot.com",
+                messagingSenderId: "673302977336",
+                appId: "1:673302977336:web:08281ab54dca3bc59bbfcd"
+            };
 
-            plan.forEach(weekData => {
-                const row = document.createElement('tr');
-                const weekStartDate = new Date(startDate);
-                weekStartDate.setDate(startDate.getDate() + (weekData.week - 1) * 7);
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+            
+            const setupAppForUser = (user) => {
+                if (!user) { console.log("User not signed in."); return; }
+                const userId = user.uid;
+                const artifactId = 'run-plan-spreadsheet';
+                const progressDocRef = doc(db, 'artifacts', artifactId, 'users', userId, 'progress', 'runPlan');
+                const checkboxes = document.querySelectorAll('.week-checkbox');
                 
-                const formattedDate = weekStartDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                onSnapshot(progressDocRef, (docSnap) => {
+                    const completedWeeks = docSnap.exists() && docSnap.data().completed ? docSnap.data().completed : [];
+                    
+                    checkboxes.forEach(box => {
+                        const weekNumber = parseInt(box.dataset.week);
+                        box.checked = completedWeeks.includes(weekNumber);
+                    });
 
-                let schedule = {
-                    mon: strengthWorkout,
-                    tue: { ...weekData.run, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.run.details}. 5m walk cool-down.` },
-                    wed: easyCardio,
-                    thu: { ...weekData.run, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.run.details}. 5m walk cool-down.` },
-                    fri: strengthWorkout,
-                    sat: weekData.longRun 
-                        ? { ...weekData.longRun, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.longRun.details}. 5m walk cool-down.` } 
-                        : { ...weekData.run, class: 'run-walk-bg', details: `5m walk warm-up, then ${weekData.run.details}. 5m walk cool-down.` },
-                    sun: restDay
+                    const totalWeeks = plan.length;
+                    const completedCount = completedWeeks.length;
+                    const progressPercentage = totalWeeks > 0 ? (completedCount / totalWeeks) * 100 : 0;
+                    
+                    document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+                    document.getElementById('progress-text').textContent = `Weeks Completed: ${completedCount} / ${totalWeeks}`;
+                }, (error) => {
+                    console.error("Error listening to progress doc:", error);
+                    document.getElementById('progress-text').textContent = 'Error loading progress.';
+                });
+
+                const saveProgress = async (changedWeek, isChecked) => {
+                    let completedWeeks = [];
+                    checkboxes.forEach(box => {
+                        if (box.checked) {
+                            const weekNum = parseInt(box.dataset.week);
+                            if (!completedWeeks.includes(weekNum)) {
+                                completedWeeks.push(weekNum);
+                            }
+                        }
+                    });
+                     // Ensure the change that triggered the event is reflected correctly
+                    if (isChecked && !completedWeeks.includes(changedWeek)) {
+                        completedWeeks.push(changedWeek);
+                    } else if (!isChecked) {
+                        completedWeeks = completedWeeks.filter(w => w !== changedWeek);
+                    }
+
+                    try {
+                        await setDoc(progressDocRef, { completed: completedWeeks });
+                        console.log("Progress saved to Firestore.");
+                    } catch (error) {
+                        console.error("Error saving progress: ", error);
+                    }
                 };
 
-                row.innerHTML = `
-                    <td class="p-4 font-semibold text-zinc-800 text-center align-middle">${weekData.week}</td>
-                    <td class="p-4 text-sm text-zinc-600 align-middle">${formattedDate}</td>
-                    ${createCell(schedule.mon)}
-                    ${createCell(schedule.tue)}
-                    ${createCell(schedule.wed)}
-                    ${createCell(schedule.thu)}
-                    ${createCell(schedule.fri)}
-                    ${createCell(schedule.sat)}
-                    ${createCell(schedule.sun)}
-                    <td class="p-2 align-middle">
-                        <div class="checkbox-container">
-                            <input type="checkbox" id="week-${weekData.week}" class="week-checkbox">
-                        </div>
-                    </td>
-                `;
-                planBody.appendChild(row);
-            });
-
-            // --- LOCALSTORAGE FOR CHECKBOXES ---
-            const checkboxes = document.querySelectorAll('.week-checkbox');
-            
-            function saveProgress() {
                 checkboxes.forEach(box => {
-                    localStorage.setItem(box.id, box.checked);
+                    box.addEventListener('change', (e) => {
+                        const weekNum = parseInt(e.target.dataset.week);
+                        const isChecked = e.target.checked;
+                        // Sync both checkboxes (table and card)
+                        document.getElementById(`week-table-${weekNum}`).checked = isChecked;
+                        document.getElementById(`week-card-${weekNum}`).checked = isChecked;
+                        saveProgress(weekNum, isChecked);
+                    });
                 });
-            }
+            };
 
-            function loadProgress() {
-                checkboxes.forEach(box => {
-                    const isChecked = localStorage.getItem(box.id) === 'true';
-                    box.checked = isChecked;
+            try {
+                await signInAnonymously(auth);
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        console.log("Signed in anonymously with UID:", user.uid);
+                        setupAppForUser(user);
+                    }
                 });
+            } catch (error) {
+                console.error("Firebase Anonymous Authentication Error:", error);
+                document.getElementById('progress-text').textContent = 'Authentication failed.';
             }
-
-            checkboxes.forEach(box => {
-                box.addEventListener('change', saveProgress);
-            });
-
-            loadProgress();
         });
     </script>
 </body>
