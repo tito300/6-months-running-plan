@@ -43,12 +43,6 @@
             background-color: #ffffff;
             z-index: 10;
         }
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
         input[type="checkbox"] {
             transform: scale(1.5);
             accent-color: #22c55e; /* green-500 */
@@ -129,15 +123,6 @@
         const upperStrengthWorkout = { title: 'Strength (Upper Body)', details: '', zone: 'N/A', class: 'strength-bg' };
         const restDay = { title: 'Rest', details: '', zone: 'Zone 1', class: 'rest-bg' };
         const easyCardio = { title: 'Easy Cardio', details: '20-30 min easy walk.', zone: 'Zone 1', class: 'rest-bg' };
-
-         const __firebase_config = {
-            apiKey: "AIzaSyDcSBTWMTQg3VeZBpzvqD6WnhN3bXqKEWo",
-            authDomain: "tarek-github-pages.firebaseapp.com",
-            projectId: "tarek-github-pages",
-            storageBucket: "tarek-github-pages.firebasestorage.app",
-            messagingSenderId: "673302977336",
-            appId: "1:673302977336:web:08281ab54dca3bc59bbfcd"
-          };
         
         const plan = [
             { week: 1, run: { title: 'Run/Walk', details: '6x (30s Jog / 4m Walk)', zone: 'Zone 2' } }, { week: 2, run: { title: 'Run/Walk', details: '8x (30s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 3, run: { title: 'Run/Walk', details: '6x (45s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 4, run: { title: 'Recovery', details: '5x (30s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 5, run: { title: 'Run/Walk', details: '8x (1m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 6, run: { title: 'Run/Walk', details: '8x (1m Jog / 2.5m Walk)', zone: 'Zone 2' } }, { week: 7, run: { title: 'Run/Walk', details: '6x (2m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 8, run: { title: 'Recovery', details: '5x (90s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 9, run: { title: 'Run/Walk', details: '6x (3m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 10, run: { title: 'Run/Walk', details: '5x (4m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 11, run: { title: 'Run/Walk', details: '4x (5m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 12, run: { title: 'Recovery', details: '4x (3m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 13, run: { title: 'Run/Walk', details: '4x (6m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 14, run: { title: 'Run/Walk', details: '3x (8m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 15, run: { title: 'Run/Walk', details: '3x (10m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 16, run: { title: 'Recovery', details: '3x (6m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 17, run: { title: 'Run/Walk', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } }, { week: 18, run: { title: 'Run/Walk', details: '3x (7m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '18 min continuous jog', zone: 'Zone 2' } }, { week: 19, run: { title: 'Run/Walk', details: '3x (8m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '20 min continuous jog', zone: 'Zone 2' } }, { week: 20, run: { title: 'Recovery', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } }, { week: 21, run: { title: 'Run/Walk', details: '2x (10m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '22 min continuous jog', zone: 'Zone 2' } }, { week: 22, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '25 min continuous jog', zone: 'Zone 2' } }, { week: 23, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '28 min continuous jog', zone: 'Zone 2' } }, { week: 24, run: { title: 'Easy Run', details: '15-20 min easy jog', zone: 'Zone 2' }, longRun: { title: 'GOAL RUN', details: '3 mile easy run!', zone: 'Zone 2' } }, { week: 25, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '30 min easy run', zone: 'Zone 2' } }, { week: 26, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '3 mile easy run', zone: 'Zone 2' } },
@@ -145,11 +130,18 @@
 
         function createTableCell(workout, week, day) {
             const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
+            const isRestOrEasy = workout.title === 'Rest' || workout.title === 'Easy Cardio';
+            
+            // Conditionally create the checkbox
+            const checkboxHtml = !isRestOrEasy 
+                ? `<input type="checkbox" id="day-table-check-${week}-${day}" data-week="${week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">`
+                : '';
+
             return `<td class="p-2 align-top ${workout.class}">
                         <div class="table-cell-content">
                             <div class="flex justify-between items-start">
                                 <div class="workout-title pr-2">${workout.title}</div>
-                                <input type="checkbox" id="day-table-check-${week}-${day}" data-week="${week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">
+                                ${checkboxHtml}
                             </div>
                             <p class="workout-details">${workout.details}</p>
                             ${workout.zone !== 'N/A' ? `<div class="mt-2 workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
@@ -206,6 +198,13 @@
             `;
             for (const [day, workout] of Object.entries(schedule)) {
                 const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
+                const isRestOrEasy = workout.title === 'Rest' || workout.title === 'Easy Cardio';
+                
+                // Conditionally create the checkbox for mobile view
+                const checkboxHtml = !isRestOrEasy
+                    ? `<input type="checkbox" id="day-card-check-${weekData.week}-${day}" data-week="${weekData.week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">`
+                    : '';
+
                 cardContent += `
                     <div class="flex items-start justify-between space-x-3 py-1">
                         <div class="flex-1">
@@ -214,7 +213,7 @@
                             <p class="workout-details">${workout.details}</p>
                             ${workout.zone !== 'N/A' ? `<div class="mt-1 workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
                         </div>
-                        <input type="checkbox" id="day-card-check-${weekData.week}-${day}" data-week="${weekData.week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">
+                        ${checkboxHtml}
                     </div>
                 `;
             }
@@ -237,7 +236,7 @@
 
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-run-plan-app';
 
-            const firebaseConfig = __firebase_config;
+            const firebaseConfig = JSON.parse(__firebase_config);
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             const db = getFirestore(app);
