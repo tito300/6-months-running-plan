@@ -118,7 +118,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
         // --- DATA AND RENDER FUNCTIONS ---
@@ -133,13 +133,22 @@
             { week: 1, run: { title: 'Run/Walk', details: '6x (30s Jog / 4m Walk)', zone: 'Zone 2' } }, { week: 2, run: { title: 'Run/Walk', details: '8x (30s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 3, run: { title: 'Run/Walk', details: '6x (45s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 4, run: { title: 'Recovery', details: '5x (30s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 5, run: { title: 'Run/Walk', details: '8x (1m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 6, run: { title: 'Run/Walk', details: '8x (1m Jog / 2.5m Walk)', zone: 'Zone 2' } }, { week: 7, run: { title: 'Run/Walk', details: '6x (2m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 8, run: { title: 'Recovery', details: '5x (90s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 9, run: { title: 'Run/Walk', details: '6x (3m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 10, run: { title: 'Run/Walk', details: '5x (4m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 11, run: { title: 'Run/Walk', details: '4x (5m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 12, run: { title: 'Recovery', details: '4x (3m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 13, run: { title: 'Run/Walk', details: '4x (6m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 14, run: { title: 'Run/Walk', details: '3x (8m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 15, run: { title: 'Run/Walk', details: '3x (10m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 16, run: { title: 'Recovery', details: '3x (6m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 17, run: { title: 'Run/Walk', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } }, { week: 18, run: { title: 'Run/Walk', details: '3x (7m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '18 min continuous jog', zone: 'Zone 2' } }, { week: 19, run: { title: 'Run/Walk', details: '3x (8m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '20 min continuous jog', zone: 'Zone 2' } }, { week: 20, run: { title: 'Recovery', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } }, { week: 21, run: { title: 'Run/Walk', details: '2x (10m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '22 min continuous jog', zone: 'Zone 2' } }, { week: 22, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '25 min continuous jog', zone: 'Zone 2' } }, { week: 23, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '28 min continuous jog', zone: 'Zone 2' } }, { week: 24, run: { title: 'Easy Run', details: '15-20 min easy jog', zone: 'Zone 2' }, longRun: { title: 'GOAL RUN', details: '3 mile easy run!', zone: 'Zone 2' } }, { week: 25, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '30 min easy run', zone: 'Zone 2' } }, { week: 26, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '3 mile easy run', zone: 'Zone 2' } },
         ];
 
-        function createTableCell(workout) {
+        function createTableCell(workout, week, day) {
             const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
-            return `<td class="p-2 align-top ${workout.class}"><div class="table-cell-content"><div class="workout-title">${workout.title}</div><p class="workout-details">${workout.details}</p>${workout.zone !== 'N/A' ? `<div class="workout-zone ${zoneClass}">${workout.zone}</div>` : ''}</div></td>`;
+            return `<td class="p-2 align-top ${workout.class}">
+                        <div class="table-cell-content">
+                            <div class="flex justify-between items-start">
+                                <div class="workout-title pr-2">${workout.title}</div>
+                                <input type="checkbox" id="day-table-check-${week}-${day}" data-week="${week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">
+                            </div>
+                            <p class="workout-details">${workout.details}</p>
+                            ${workout.zone !== 'N/A' ? `<div class="mt-2 workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
+                        </div>
+                    </td>`;
         }
         
         const startDate = new Date();
-        startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7);
+        startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7); // Set to the most recent Monday
 
         plan.forEach(weekData => {
             const weekStartDate = new Date(startDate);
@@ -152,23 +161,34 @@
                 : runWorkout;
 
             const schedule = {
-                Monday: strengthWorkout,
-                Tuesday: runWorkout,
-                Wednesday: easyCardio,
-                Thursday: upperStrengthWorkout,
-                Friday: runWorkout,
-                Saturday: longRunWorkout,
-                Sunday: restDay
+                Monday: strengthWorkout, Tuesday: runWorkout, Wednesday: easyCardio,
+                Thursday: upperStrengthWorkout, Friday: runWorkout, Saturday: longRunWorkout, Sunday: restDay
             };
 
             // --- Create Table Row (Desktop) ---
             const row = document.createElement('tr');
-            row.innerHTML = `<td class="p-4 font-semibold text-zinc-800 text-center align-middle">${weekData.week}</td><td class="p-4 text-sm text-zinc-600 align-middle">${formattedDate}</td>${createTableCell(schedule.Monday)}${createTableCell(schedule.Tuesday)}${createTableCell(schedule.Wednesday)}${createTableCell(schedule.Thursday)}${createTableCell(schedule.Friday)}${createTableCell(schedule.Saturday)}${createTableCell(schedule.Sunday)}<td class="p-2 align-middle"><div class="checkbox-container"><input type="checkbox" id="week-table-${weekData.week}" data-week="${weekData.week}" class="week-checkbox"></div></td>`;
+            row.id = `week-row-${weekData.week}`;
+            row.innerHTML = `
+                <td class="p-4 font-semibold text-zinc-800 text-center align-middle">${weekData.week}</td>
+                <td class="p-4 text-sm text-zinc-600 align-middle">${formattedDate}</td>
+                ${createTableCell(schedule.Monday, weekData.week, 'Monday')}
+                ${createTableCell(schedule.Tuesday, weekData.week, 'Tuesday')}
+                ${createTableCell(schedule.Wednesday, weekData.week, 'Wednesday')}
+                ${createTableCell(schedule.Thursday, weekData.week, 'Thursday')}
+                ${createTableCell(schedule.Friday, weekData.week, 'Friday')}
+                ${createTableCell(schedule.Saturday, weekData.week, 'Saturday')}
+                ${createTableCell(schedule.Sunday, weekData.week, 'Sunday')}
+                <td class="p-2 align-middle">
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="week-table-${weekData.week}" data-week="${weekData.week}" class="week-checkbox" disabled>
+                    </div>
+                </td>`;
             planTableBody.appendChild(row);
 
             // --- Create Card (Mobile) ---
             const card = document.createElement('div');
             card.className = 'bg-white rounded-xl shadow-md p-4';
+            card.id = `week-card-container-${weekData.week}`;
             let cardContent = `
                 <div class="flex justify-between items-center border-b border-zinc-200 pb-3 mb-3">
                     <div>
@@ -177,7 +197,7 @@
                     </div>
                     <div class="flex items-center space-x-2">
                          <label for="week-card-${weekData.week}" class="text-sm font-medium text-zinc-600">Done</label>
-                         <input type="checkbox" id="week-card-${weekData.week}" data-week="${weekData.week}" class="week-checkbox">
+                         <input type="checkbox" id="week-card-${weekData.week}" data-week="${weekData.week}" class="week-checkbox" disabled>
                     </div>
                 </div>
                 <div class="space-y-3">
@@ -185,13 +205,14 @@
             for (const [day, workout] of Object.entries(schedule)) {
                 const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
                 cardContent += `
-                    <div class="flex items-start space-x-3">
-                        <div class="w-16 text-xs font-bold text-zinc-500 uppercase pt-1">${day}</div>
+                    <div class="flex items-start justify-between space-x-3 py-1">
                         <div class="flex-1">
+                            <div class="font-bold text-sm text-zinc-500 uppercase">${day}</div>
                             <div class="workout-title">${workout.title}</div>
                             <p class="workout-details">${workout.details}</p>
                             ${workout.zone !== 'N/A' ? `<div class="mt-1 workout-zone ${zoneClass}">${workout.zone}</div>` : ''}
                         </div>
+                        <input type="checkbox" id="day-card-check-${weekData.week}-${day}" data-week="${weekData.week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">
                     </div>
                 `;
             }
@@ -201,18 +222,10 @@
         });
 
         // --- FIREBASE SETUP AND LOGIC ---
-            document.addEventListener('DOMContentLoaded', async () => {
-                // Your web app's Firebase configuration
-              const firebaseConfig = {
-                apiKey: "AIzaSyDcSBTWMTQg3VeZBpzvqD6WnhN3bXqKEWo",
-                authDomain: "tarek-github-pages.firebaseapp.com",
-                projectId: "tarek-github-pages",
-                storageBucket: "tarek-github-pages.firebasestorage.app",
-                messagingSenderId: "673302977336",
-                appId: "1:673302977336:web:08281ab54dca3bc59bbfcd"
-              };
-
-            // Initialize Firebase
+        document.addEventListener('DOMContentLoaded', async () => {
+            const firebaseConfig = JSON.parse(__firebase_config);
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-run-plan-app';
+            
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             const db = getFirestore(app);
@@ -220,76 +233,111 @@
             const setupAppForUser = (user) => {
                 if (!user) { console.log("User not signed in."); return; }
                 const userId = user.uid;
-                const artifactId = 'run-plan-spreadsheet';
-                const progressDocRef = doc(db, 'artifacts', artifactId, 'users', userId, 'progress', 'runPlan');
-                const checkboxes = document.querySelectorAll('.week-checkbox');
-                
-                onSnapshot(progressDocRef, (docSnap) => {
-                    const completedWeeks = docSnap.exists() && docSnap.data().completed ? docSnap.data().completed : [];
-                    
-                    checkboxes.forEach(box => {
-                        const weekNumber = parseInt(box.dataset.week);
-                        box.checked = completedWeeks.includes(weekNumber);
-                    });
+                const progressDocRef = doc(db, 'artifacts', appId, 'users', userId);
 
-                    const totalWeeks = plan.length;
-                    const completedCount = completedWeeks.length;
-                    const progressPercentage = totalWeeks > 0 ? (completedCount / totalWeeks) * 100 : 0;
-                    
-                    document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
-                    document.getElementById('progress-text').textContent = `Weeks Completed: ${completedCount} / ${totalWeeks}`;
-                }, (error) => {
-                    console.error("Error listening to progress doc:", error);
-                    document.getElementById('progress-text').textContent = 'Error loading progress.';
+                let progressData = {}; 
+
+                // Initialize local state with default false values for all days
+                plan.forEach(weekData => {
+                    progressData[weekData.week] = {
+                        Monday: false, Tuesday: false, Wednesday: false, Thursday: false,
+                        Friday: false, Saturday: false, Sunday: false
+                    };
                 });
 
-                const saveProgress = async (changedWeek, isChecked) => {
-                    let completedWeeks = [];
-                    checkboxes.forEach(box => {
-                        if (box.checked) {
-                            const weekNum = parseInt(box.dataset.week);
-                            if (!completedWeeks.includes(weekNum)) {
-                                completedWeeks.push(weekNum);
-                            }
-                        }
-                    });
-                     // Ensure the change that triggered the event is reflected correctly
-                    if (isChecked && !completedWeeks.includes(changedWeek)) {
-                        completedWeeks.push(changedWeek);
-                    } else if (!isChecked) {
-                        completedWeeks = completedWeeks.filter(w => w !== changedWeek);
-                    }
+                const updateUI = () => {
+                    let completedWeeksCount = 0;
+                    for (const week in progressData) {
+                        let allDaysChecked = true;
+                        for (const day in progressData[week]) {
+                            const isChecked = progressData[week][day];
+                            
+                            const tableCheck = document.getElementById(`day-table-check-${week}-${day}`);
+                            if (tableCheck) tableCheck.checked = isChecked;
+                            
+                            const cardCheck = document.getElementById(`day-card-check-${week}-${day}`);
+                            if (cardCheck) cardCheck.checked = isChecked;
 
+                            if (!isChecked) allDaysChecked = false;
+                        }
+
+                        const weekTableCheck = document.getElementById(`week-table-${week}`);
+                        if (weekTableCheck) weekTableCheck.checked = allDaysChecked;
+                        
+                        const weekCardCheck = document.getElementById(`week-card-${week}`);
+                        if (weekCardCheck) weekCardCheck.checked = allDaysChecked;
+                        
+                        if(allDaysChecked) completedWeeksCount++;
+                    }
+                    
+                    const totalWeeks = plan.length;
+                    const progressPercentage = totalWeeks > 0 ? (completedWeeksCount / totalWeeks) * 100 : 0;
+                    document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+                    document.getElementById('progress-text').textContent = `Weeks Completed: ${completedWeeksCount} / ${totalWeeks}`;
+                };
+
+                const saveProgress = async () => {
                     try {
-                        await setDoc(progressDocRef, { completed: completedWeeks });
-                        console.log("Progress saved to Firestore.");
+                        await setDoc(progressDocRef, { dailyProgress: progressData }, { merge: true });
                     } catch (error) {
                         console.error("Error saving progress: ", error);
                     }
                 };
 
-                checkboxes.forEach(box => {
+                onSnapshot(progressDocRef, (docSnap) => {
+                    if (docSnap.exists() && docSnap.data().dailyProgress) {
+                        const firestoreData = docSnap.data().dailyProgress;
+                        // Merge Firestore data with local default structure
+                        Object.keys(progressData).forEach(week => {
+                            if (firestoreData[week]) {
+                                Object.keys(progressData[week]).forEach(day => {
+                                    if (firestoreData[week][day] !== undefined) {
+                                        progressData[week][day] = firestoreData[week][day];
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    updateUI(); // Render UI based on loaded/default data
+                }, (error) => {
+                    console.error("Error listening to progress doc:", error);
+                    document.getElementById('progress-text').textContent = 'Error loading progress.';
+                });
+
+                document.querySelectorAll('.day-checkbox').forEach(box => {
                     box.addEventListener('change', (e) => {
-                        const weekNum = parseInt(e.target.dataset.week);
+                        const week = e.target.dataset.week;
+                        const day = e.target.dataset.day;
                         const isChecked = e.target.checked;
-                        // Sync both checkboxes (table and card)
-                        document.getElementById(`week-table-${weekNum}`).checked = isChecked;
-                        document.getElementById(`week-card-${weekNum}`).checked = isChecked;
-                        saveProgress(weekNum, isChecked);
+
+                        if (progressData[week]) {
+                            progressData[week][day] = isChecked;
+                        }
+
+                        const otherViewPrefix = e.target.id.startsWith('day-table') ? 'day-card' : 'day-table';
+                        const otherCheckbox = document.getElementById(`${otherViewPrefix}-check-${week}-${day}`);
+                        if (otherCheckbox) otherCheckbox.checked = isChecked;
+
+                        updateUI();
+                        saveProgress();
                     });
                 });
             };
 
             try {
-                await signInAnonymously(auth);
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
-                        console.log("Signed in anonymously with UID:", user.uid);
+                        console.log("Signed in with UID:", user.uid);
                         setupAppForUser(user);
                     }
                 });
             } catch (error) {
-                console.error("Firebase Anonymous Authentication Error:", error);
+                console.error("Firebase Authentication Error:", error);
                 document.getElementById('progress-text').textContent = 'Authentication failed.';
             }
         });
