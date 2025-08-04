@@ -186,7 +186,7 @@
                     </td>`;
         }
         
-        const startDate = new Date('2025-08-04T12:00:00');
+        const startDate = new Date('2025-07-28T12:00:00');
         startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7); // Set to the most recent Monday
 
         plan.forEach(weekData => {
@@ -352,7 +352,7 @@
                 document.querySelectorAll('.day-checkbox').forEach(box => {
                     box.addEventListener('change', (e) => {
                         const week = e.target.dataset.week;
-                        const day = e.target.day;
+                        const day = e.target.dataset.day;
                         const isChecked = e.target.checked;
 
                         if (progressData[week]) {
