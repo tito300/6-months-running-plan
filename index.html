@@ -75,13 +75,13 @@
 
         <!-- Heart Rate Zones -->
         <div class="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h2 class="text-xl font-bold text-zinc-800 mb-4">Your Heart Rate Zones (Max HR: 215 bpm)</h2>
+            <h2 class="text-xl font-bold text-zinc-800 mb-4">Your Heart Rate Zones (Max HR: 188 bpm)</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-                <div class="p-4 rounded-lg bg-gray-100"><div class="font-bold text-gray-800">Zone 1</div><div class="text-gray-600">50-68%</div><div class="text-lg font-semibold text-gray-900">108-146 bpm</div></div>
-                <div class="p-4 rounded-lg bg-green-100"><div class="font-bold text-green-800">Zone 2</div><div class="text-green-600">68-78%</div><div class="text-lg font-semibold text-green-900">146-168 bpm</div></div>
-                <div class="p-4 rounded-lg bg-yellow-100"><div class="font-bold text-yellow-800">Zone 3</div><div class="text-yellow-600">78-85%</div><div class="text-lg font-semibold text-yellow-900">168-183 bpm</div></div>
-                <div class="p-4 rounded-lg bg-orange-100"><div class="font-bold text-orange-800">Zone 4</div><div class="text-orange-600">85-92%</div><div class="text-lg font-semibold text-orange-900">183-198 bpm</div></div>
-                <div class="p-4 rounded-lg bg-red-100"><div class="font-bold text-red-800">Zone 5</div><div class="text-red-600">92-100%</div><div class="text-lg font-semibold text-red-900">198-215 bpm</div></div>
+                <div class="p-4 rounded-lg bg-gray-100"><div class="font-bold text-gray-800">Zone 1</div><div class="text-gray-600">50-60%</div><div class="text-lg font-semibold text-gray-900">94-113 bpm</div></div>
+                <div class="p-4 rounded-lg bg-green-100"><div class="font-bold text-green-800">Zone 2</div><div class="text-green-600">60-70%</div><div class="text-lg font-semibold text-green-900">113-132 bpm</div></div>
+                <div class="p-4 rounded-lg bg-yellow-100"><div class="font-bold text-yellow-800">Zone 3</div><div class="text-yellow-600">70-80%</div><div class="text-lg font-semibold text-yellow-900">132-150 bpm</div></div>
+                <div class="p-4 rounded-lg bg-orange-100"><div class="font-bold text-orange-800">Zone 4</div><div class="text-orange-600">80-90%</div><div class="text-lg font-semibold text-orange-900">150-169 bpm</div></div>
+                <div class="p-4 rounded-lg bg-red-100"><div class="font-bold text-red-800">Zone 5</div><div class="text-red-600">90-100%</div><div class="text-lg font-semibold text-red-900">169-188 bpm</div></div>
             </div>
         </div>
 
@@ -119,8 +119,8 @@
         // --- DATA AND RENDER FUNCTIONS ---
         const planTableBody = document.getElementById('plan-body-table');
         const planCardsContainer = document.getElementById('plan-body-cards');
-        const strengthWorkout = { title: 'Strength (Lower/Core)', details: '', zone: 'N/A', class: 'strength-bg' };
-        const upperStrengthWorkout = { title: 'Strength (Upper Body)', details: '', zone: 'N/A', class: 'strength-bg' };
+        
+        const upperStrengthWorkout = { title: 'Strength (Upper Body)', details: '3x10 Pushups, 3x10 Dumbbell Rows, 3x10 Bicep Curls', zone: 'N/A', class: 'strength-bg' };
         const restDay = { title: 'Rest', details: '', zone: 'Zone 1', class: 'rest-bg' };
         const easyCardio = { title: 'Easy Cardio', details: '20-30 min easy walk.', zone: 'Zone 1', class: 'rest-bg' };
 
@@ -133,6 +133,35 @@
             appId: "1:673302977336:web:08281ab54dca3bc59bbfcd"
           };
         
+        const lowerBodyPlan = [
+            { week: 1, details: '2 Rnds: 10 Squats, 12 Glute Bridges, 20s Plank' },
+            { week: 2, details: '3 Rnds: 12 Squats, 15 Glute Bridges, 25s Plank' },
+            { week: 3, details: '3 Rnds: 15 Squats, 18 Glute Bridges, 30s Plank' },
+            { week: 4, details: '3 Rnds: 15 Squats, 10/side SL Glute Bridge, 35s Plank' },
+            { week: 5, details: '3 Rnds: 8/leg Lunges, 10/side Bird-Dog, 20s/side Side Plank' },
+            { week: 6, details: '3 Rnds: 10/leg Lunges, 12/side Bird-Dog, 25s/side Side Plank' },
+            { week: 7, details: '3 Rnds: 10/leg Rev Lunges, 12/side Bridge March, 10/side Plank Taps' },
+            { week: 8, details: '3 Rnds: 12/leg Rev Lunges, 15/side Bridge March, 12/side Plank Taps' },
+            { week: 9, details: '3 Rnds: 8 Goblet Squats, 10 RDLs, 10 Leg Raises' },
+            { week: 10, details: '3 Rnds: 10 Goblet Squats, 12 RDLs, 12 Leg Raises' },
+            { week: 11, details: '3 Rnds: 12 Goblet Squats, 15 RDLs, 30s Flutter Kicks' },
+            { week: 12, details: '3 Rnds: 12 Goblet Squats, 15 RDLs, 12/side Russian Twists' },
+            { week: 13, details: '3 Rnds: 8/leg DB Lunges, 8/leg SL RDLs, 15/side Russian Twists' },
+            { week: 14, details: '3 Rnds: 10/leg DB Lunges, 10/leg SL RDLs, 12 Knee Raises' },
+            { week: 15, details: '3 Rnds: 8/leg Split Squats, 12 DB RDLs, 15 Knee Raises' },
+            { week: 16, details: '3 Rnds: 10/leg Split Squats, 15 DB RDLs, 30s Mtn Climbers' },
+            { week: 17, details: '3 Rnds: 10 Jump Squats, 10/leg Step-Ups, 40s Mtn Climbers' },
+            { week: 18, details: '3 Rnds: 12 Jump Squats, 12/leg Step-Ups, 30s Plank Jacks' },
+            { week: 19, details: '3 Rnds: 8 Box Jumps, 12/leg Lunges, 40s Plank Jacks' },
+            { week: 20, details: '4 Rnds: 8 Box Jumps, 12/leg Lunges, 40s Plank Jacks' },
+            { week: 21, details: '4 Rnds: 8 DB Thrusters, 15/side SL Glute Bridge, 20/side Bicycle Crunches' },
+            { week: 22, details: '4 Rnds: 10 DB Thrusters, 10/leg Split Squats, 25/side Bicycle Crunches' },
+            { week: 23, details: '4 Rnds: 15 Jump Squats, 12 Goblet Squats, 15 V-Ups' },
+            { week: 24, details: '4 Rnds: 20 Jump Squats, 15 Goblet Squats, Max V-Ups' },
+            { week: 25, details: 'Maintenance: 3 Rnds of Week 23/24 mix' },
+            { week: 26, details: 'Maintenance: 3 Rnds of Week 23/24 mix' },
+        ];
+        
         const plan = [
             { week: 1, run: { title: 'Run/Walk', details: '6x (30s Jog / 4m Walk)', zone: 'Zone 2' } }, { week: 2, run: { title: 'Run/Walk', details: '8x (30s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 3, run: { title: 'Run/Walk', details: '6x (45s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 4, run: { title: 'Recovery', details: '5x (30s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 5, run: { title: 'Run/Walk', details: '8x (1m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 6, run: { title: 'Run/Walk', details: '8x (1m Jog / 2.5m Walk)', zone: 'Zone 2' } }, { week: 7, run: { title: 'Run/Walk', details: '6x (2m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 8, run: { title: 'Recovery', details: '5x (90s Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 9, run: { title: 'Run/Walk', details: '6x (3m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 10, run: { title: 'Run/Walk', details: '5x (4m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 11, run: { title: 'Run/Walk', details: '4x (5m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 12, run: { title: 'Recovery', details: '4x (3m Jog / 3m Walk)', zone: 'Zone 2' } }, { week: 13, run: { title: 'Run/Walk', details: '4x (6m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 14, run: { title: 'Run/Walk', details: '3x (8m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 15, run: { title: 'Run/Walk', details: '3x (10m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 16, run: { title: 'Recovery', details: '3x (6m Jog / 2m Walk)', zone: 'Zone 2' } }, { week: 17, run: { title: 'Run/Walk', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } }, { week: 18, run: { title: 'Run/Walk', details: '3x (7m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '18 min continuous jog', zone: 'Zone 2' } }, { week: 19, run: { title: 'Run/Walk', details: '3x (8m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '20 min continuous jog', zone: 'Zone 2' } }, { week: 20, run: { title: 'Recovery', details: '4x (5m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '15 min continuous jog', zone: 'Zone 2' } }, { week: 21, run: { title: 'Run/Walk', details: '2x (10m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '22 min continuous jog', zone: 'Zone 2' } }, { week: 22, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '25 min continuous jog', zone: 'Zone 2' } }, { week: 23, run: { title: 'Run/Walk', details: '2x (12m Run / 2m Walk)', zone: 'Zone 2' }, longRun: { title: 'Long Run', details: '28 min continuous jog', zone: 'Zone 2' } }, { week: 24, run: { title: 'Easy Run', details: '15-20 min easy jog', zone: 'Zone 2' }, longRun: { title: 'GOAL RUN', details: '3 mile easy run!', zone: 'Zone 2' } }, { week: 25, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '30 min easy run', zone: 'Zone 2' } }, { week: 26, run: { title: 'Maintenance', details: '20-25 min easy run', zone: 'Zone 2' }, longRun: { title: 'Maintenance', details: '3 mile easy run', zone: 'Zone 2' } },
         ];
@@ -141,7 +170,6 @@
             const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
             const isRestOrEasy = workout.title === 'Rest' || workout.title === 'Easy Cardio';
             
-            // Conditionally create the checkbox
             const checkboxHtml = !isRestOrEasy 
                 ? `<input type="checkbox" id="day-table-check-${week}-${day}" data-week="${week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">`
                 : '';
@@ -158,7 +186,7 @@
                     </td>`;
         }
         
-        const startDate = new Date();
+        const startDate = new Date('2025-07-28T12:00:00');
         startDate.setDate(startDate.getDate() - (startDate.getDay() + 6) % 7); // Set to the most recent Monday
 
         plan.forEach(weekData => {
@@ -166,13 +194,20 @@
             weekStartDate.setDate(startDate.getDate() + (weekData.week - 1) * 7);
             const formattedDate = weekStartDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-            const runWorkout = { ...weekData.run, class: 'run-walk-bg', details: weekData.run.details };
+            const runWorkout = { ...weekData.run, class: 'run-walk-bg' };
             const longRunWorkout = weekData.longRun 
-                ? { ...weekData.longRun, class: 'run-walk-bg', details: weekData.longRun.details } 
+                ? { ...weekData.longRun, class: 'run-walk-bg' } 
                 : runWorkout;
+            
+            const lowerBodyWorkout = {
+                title: 'Strength (Lower/Core)',
+                details: lowerBodyPlan.find(w => w.week === weekData.week)?.details || 'Rest',
+                zone: 'N/A',
+                class: 'strength-bg'
+            };
 
             const schedule = {
-                Monday: strengthWorkout, Tuesday: runWorkout, Wednesday: easyCardio,
+                Monday: lowerBodyWorkout, Tuesday: runWorkout, Wednesday: easyCardio,
                 Thursday: upperStrengthWorkout, Friday: runWorkout, Saturday: longRunWorkout, Sunday: restDay
             };
 
@@ -209,7 +244,6 @@
                 const zoneClass = workout.zone === 'Zone 1' ? 'zone-1' : 'zone-2';
                 const isRestOrEasy = workout.title === 'Rest' || workout.title === 'Easy Cardio';
                 
-                // Conditionally create the checkbox for mobile view
                 const checkboxHtml = !isRestOrEasy
                     ? `<input type="checkbox" id="day-card-check-${weekData.week}-${day}" data-week="${weekData.week}" data-day="${day}" class="day-checkbox flex-shrink-0 mt-1" style="transform: scale(1.2);">`
                     : '';
@@ -233,20 +267,16 @@
 
         // --- FIREBASE SETUP AND LOGIC ---
         document.addEventListener('DOMContentLoaded', async () => {
-            // Defensively check for the firebase config to prevent reference errors.
             if (typeof __firebase_config === 'undefined') {
                 console.error("Firebase configuration object is not defined.");
                 document.getElementById('progress-text').textContent = 'Error: App configuration is missing.';
-                // Hide the main content if the app can't load
                 document.getElementById('plan-body-table').style.display = 'none';
                 document.getElementById('plan-body-cards').style.display = 'none';
-                return; // Stop the app from running
+                return;
             }
 
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-run-plan-app';
-
-            const firebaseConfig = __firebase_config;
-            const app = initializeApp(firebaseConfig);
+            const app = initializeApp(__firebase_config);
             const auth = getAuth(app);
             const db = getFirestore(app);
             
@@ -257,7 +287,6 @@
 
                 let progressData = {}; 
 
-                // Initialize local state with default false values for all days
                 plan.forEach(weekData => {
                     progressData[weekData.week] = {
                         Monday: false, Tuesday: false, Wednesday: false, Thursday: false,
@@ -270,7 +299,6 @@
                     const requiredDays = ['Monday', 'Tuesday', 'Thursday', 'Friday', 'Saturday'];
 
                     for (const week in progressData) {
-                        // Update the checked state for all daily checkboxes first
                         for (const day in progressData[week]) {
                             const isChecked = progressData[week][day];
                             
@@ -281,7 +309,6 @@
                             if (cardCheck) cardCheck.checked = isChecked;
                         }
 
-                        // Now, check if the week is complete based on required days
                         const isWeekComplete = requiredDays.every(day => progressData[week][day]);
 
                         if (isWeekComplete) {
@@ -306,7 +333,6 @@
                 onSnapshot(progressDocRef, (docSnap) => {
                     if (docSnap.exists() && docSnap.data().dailyProgress) {
                         const firestoreData = docSnap.data().dailyProgress;
-                        // Merge Firestore data with local default structure
                         Object.keys(progressData).forEach(week => {
                             if (firestoreData[week]) {
                                 Object.keys(progressData[week]).forEach(day => {
@@ -317,7 +343,7 @@
                             }
                         });
                     }
-                    updateUI(); // Render UI based on loaded/default data
+                    updateUI();
                 }, (error) => {
                     console.error("Error listening to progress doc:", error);
                     document.getElementById('progress-text').textContent = 'Error loading progress.';
@@ -351,7 +377,6 @@
                 }
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
-                        console.log("Signed in with UID:", user.uid);
                         setupAppForUser(user);
                     }
                 });
