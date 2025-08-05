@@ -134,27 +134,32 @@
           };
         
         const lowerBodyPlan = [
+            // Phase 1: Foundation & Elasticity Introduction
             { week: 1, details: '2 Rnds: 10 Squats, 12 Glute Bridges, 20s Plank' },
-            { week: 2, details: '3 Rnds: 12 Squats, 15 Glute Bridges, 25s Plank' },
-            { week: 3, details: '3 Rnds: 15 Squats, 18 Glute Bridges, 30s Plank' },
-            { week: 4, details: '3 Rnds: 15 Squats, 10/side SL Glute Bridge, 35s Plank' },
-            { week: 5, details: '3 Rnds: 8/leg Lunges, 10/side Bird-Dog, 20s/side Side Plank' },
-            { week: 6, details: '3 Rnds: 10/leg Lunges, 12/side Bird-Dog, 25s/side Side Plank' },
-            { week: 7, details: '3 Rnds: 10/leg Rev Lunges, 12/side Bridge March, 10/side Plank Taps' },
-            { week: 8, details: '3 Rnds: 12/leg Rev Lunges, 15/side Bridge March, 12/side Plank Taps' },
-            { week: 9, details: '3 Rnds: 8 Goblet Squats, 10 RDLs, 10 Leg Raises' },
-            { week: 10, details: '3 Rnds: 10 Goblet Squats, 12 RDLs, 12 Leg Raises' },
-            { week: 11, details: '3 Rnds: 12 Goblet Squats, 15 RDLs, 30s Flutter Kicks' },
-            { week: 12, details: '3 Rnds: 12 Goblet Squats, 15 RDLs, 12/side Russian Twists' },
-            { week: 13, details: '3 Rnds: 8/leg DB Lunges, 8/leg SL RDLs, 15/side Russian Twists' },
-            { week: 14, details: '3 Rnds: 10/leg DB Lunges, 10/leg SL RDLs, 12 Knee Raises' },
-            { week: 15, details: '3 Rnds: 8/leg Split Squats, 12 DB RDLs, 15 Knee Raises' },
-            { week: 16, details: '3 Rnds: 10/leg Split Squats, 15 DB RDLs, 30s Mtn Climbers' },
-            { week: 17, details: '3 Rnds: 10 Jump Squats, 10/leg Step-Ups, 40s Mtn Climbers' },
+            { week: 2, details: '2 Rnds: 12 Squats, 15 Glute Bridges, 25s Plank' },
+            { week: 3, details: 'Plyo: 2x20s Pogo Hops | Circuit: 2 Rnds: 15 Squats, 18 Glute Bridges, 30s Plank' },
+            { week: 4, details: 'Plyo: 3x20s Pogo Hops | Circuit: 2 Rnds: 15 Squats, 10/side SL Glute Bridge, 35s Plank' },
+            { week: 5, details: 'Plyo: 3x30s Pogo Hops | Circuit: 3 Rnds: 8/leg Lunges, 10/side Bird-Dog, 20s/side Side Plank' },
+            { week: 6, details: 'Plyo: 2x45s Jump Rope | Circuit: 3 Rnds: 10/leg Lunges, 12/side Bird-Dog, 25s/side Side Plank' },
+            { week: 7, details: 'Plyo: 3x45s Jump Rope | Circuit: 3 Rnds: 10/leg Rev Lunges, 12/side Bridge March, 10/side Plank Taps' },
+            { week: 8, details: 'Plyo: 3x60s Jump Rope | Circuit: 3 Rnds: 12/leg Rev Lunges, 15/side Bridge March, 12/side Plank Taps' },
+        
+            // Phase 2: Building Strength & Power
+            { week: 9, details: 'Plyo: 2x8 Tuck Jumps | Circuit: 3 Rnds: 8 Goblet Squats, 10 RDLs, 10 Leg Raises' },
+            { week: 10, details: 'Plyo: 3x8 Tuck Jumps | Circuit: 3 Rnds: 10 Goblet Squats, 12 RDLs, 12 Leg Raises' },
+            { week: 11, details: 'Plyo: 3x6 Box Jumps (low) | Circuit: 3 Rnds: 12 Goblet Squats, 15 RDLs, 30s Flutter Kicks' },
+            { week: 12, details: 'Plyo: 3x8 Box Jumps (low) | Circuit: 3 Rnds: 12 Goblet Squats, 15 RDLs, 12/side Russian Twists' },
+            { week: 13, details: '3 Rnds: 8/leg DB Lunges, 8/leg SL RDLs, 15/side Russian Twists' }, // Recovery week from plyo
+            { week: 14, details: 'Plyo: 3x10 Tuck Jumps | Circuit: 3 Rnds: 10/leg DB Lunges, 10/leg SL RDLs, 12 Knee Raises' },
+            { week: 15, details: 'Plyo: 3x8 Box Jumps | Circuit: 3 Rnds: 8/leg Split Squats, 12 DB RDLs, 15 Knee Raises' },
+            { week: 16, details: 'Plyo: 2x20yd Bounding | Circuit: 3 Rnds: 10/leg Split Squats, 15 DB RDLs, 30s Mtn Climbers' },
+        
+            // Phase 3: Peak Power & Integration
+            { week: 17, details: '3 Rnds: 10 Jump Squats, 10/leg Step-Ups, 40s Mtn Climbers' }, // Jump squats are the plyo
             { week: 18, details: '3 Rnds: 12 Jump Squats, 12/leg Step-Ups, 30s Plank Jacks' },
             { week: 19, details: '3 Rnds: 8 Box Jumps, 12/leg Lunges, 40s Plank Jacks' },
             { week: 20, details: '4 Rnds: 8 Box Jumps, 12/leg Lunges, 40s Plank Jacks' },
-            { week: 21, details: '4 Rnds: 8 DB Thrusters, 15/side SL Glute Bridge, 20/side Bicycle Crunches' },
+            { week: 21, details: '4 Rnds: 8 DB Thrusters, 15/side SL Glute Bridge, 20/side Bicycle Crunches' }, // Thrusters have a plyo element
             { week: 22, details: '4 Rnds: 10 DB Thrusters, 10/leg Split Squats, 25/side Bicycle Crunches' },
             { week: 23, details: '4 Rnds: 15 Jump Squats, 12 Goblet Squats, 15 V-Ups' },
             { week: 24, details: '4 Rnds: 20 Jump Squats, 15 Goblet Squats, Max V-Ups' },
